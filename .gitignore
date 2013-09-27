@@ -1,0 +1,4 @@
+build/*
+node_modules
+aws-creds.json
+.DS_Store

@@ -1,0 +1,826 @@
+// Doodad v0.2.0
+// Public Domain, https://github.com/droptype/doodad
+// 2013-9-17
+
+// https://gist.github.com/3914311
+
+$break_small: 640px
+$break_medium: 980px
+$break_large: 1400px
+$break_extra_large: 1600px
+$break_extra_extra_large: 2000px
+
+
+@mixin respond-to($media)
+    @if $media == handhelds
+        @media only screen and (max-width: $break_small)
+            @content
+    @else if $media == extra-narrow-screens
+        @media only screen and (min-width: $break_small + 1) and (max-width: $break_medium)
+            @content
+
+    @else if $media == narrow-screens
+        @media only screen and (min-width: $break_medium + 1) and (max-width: $break_large)
+            @content
+
+    @else if $media == full-screens
+        @media only screen and (min-width: $break_large + 1)
+            @content
+
+    @else if $media == wide-screens
+        @media only screen and (min-width: $break_extra_large + 1)
+            @content
+
+    @else if $media == extra-wide-screens
+        @media only screen and (min-width: $break_extra_extra_large + 1)
+            @content
+
+
+
+@mixin respond-to-gt($media)
+    @if $media == handhelds
+        @media only screen and (min-width: $break_small + 1)
+            @content
+    @else if $media == extra-narrow-screens
+        @media only screen and (min-width: $break_medium + 1)
+            @content
+
+    @else if $media == narrow-screens
+        @media only screen and (min-width: $break_large + 1)
+            @content
+
+    @else if $media == full-screens
+        @media only screen and (min-width: $break_extra_large + 1)
+            @content
+
+    @else if $media == wide-screens
+        @media only screen and (min-width: $break_extra_extra_large + 1)
+            @content
+
+    @else
+        @media only screen and (min-width: $media + 1)
+            @content
+
+
+@mixin respond-to-lt($media)
+    @if $media == extra-narrow-screens
+        @media only screen and (max-width: $break_small)
+            @content
+
+    @else if $media == narrow-screens
+        @media only screen and (max-width: $break_medium)
+            @content
+
+    @else if $media == full-screens
+        @media only screen and (max-width: $break_large)
+            @content
+
+    @else if $media == wide-screens
+        @media only screen and (max-width: $break_extra_large)
+            @content
+
+    @else if $media == extra-wide-screens
+        @media only screen and (max-width: $break_extra_extra_large)
+            @content
+
+    @else
+        @media only screen and (max-width: $media - 1)
+            @content
+
+$Doodad_image_folder: '' !default
+
+// Dangerous: http://thenounproject.com/noun/dangerous-area/#icon-No4263
+$icon_dangerous_dark_image: inline-image('#{ $Doodad_image_folder }icon-dangerous-dark.svg') !default
+$icon_dangerous_light_image: inline-image('#{ $Doodad_image_folder }icon-dangerous-light.svg') !default
+
+// Warning
+$icon_warning_dark_image: inline-image('#{ $Doodad_image_folder }icon-warning-dark.svg') !default
+$icon_warning_light_image: inline-image('#{ $Doodad_image_folder }icon-warning-light.svg') !default
+
+// Friendly: http://thenounproject.com/noun/smile/#icon-No7578
+$icon_friendly_dark_image: inline-image('#{ $Doodad_image_folder }icon-friendly-dark.svg') !default
+$icon_friendly_light_image: inline-image('#{ $Doodad_image_folder }icon-friendly-light.svg') !default
+
+// Action
+$icon_action_dark_image: inline-image('#{ $Doodad_image_folder }icon-action-dark.svg') !default
+$icon_action_light_image: inline-image('#{ $Doodad_image_folder }icon-action-light.svg') !default
+
+// Default 
+$icon_default_dark_image: inline-image('#{ $Doodad_image_folder }icon-default-dark.svg') !default
+$icon_default_light_image: inline-image('#{ $Doodad_image_folder }icon-default-light.svg') !default
+
+// Close
+$icon_close_dark: inline-image('#{ $Doodad_image_folder }icon-close-dark.svg') !default
+$icon_close_light: inline-image('#{ $Doodad_image_folder }icon-close-light.svg') !default
+$default_color      : #34495e !default
+$friendly_color     : #27ae60 !default
+$dangerous_color    : #e74c3c !default
+$warning_color      : #f39c12 !default
+$action_color       : #9b59b6 !default
+$disabled_color     : #bdc3c7 !default
+@import 'compass/css3'
+
+$Spinner_min_size: 24px !default
+
+.Spinner
+    position: relative
+    min-height: $Spinner_min_size
+    min-width: $Spinner_min_size
+    display: inline-block
+
+
+@import 'compass/css3'
+
+
+
+$Button_height          : 50px !default
+$Button_icon_width      : 26px !default
+$Button_icon_height     : 26px !default
+$Button_spinner_width   : 22px !default
+$Button_spinner_height  : 22px !default
+$Button_bare_weight     : 700 !default
+
+$Button_internal_padding: 7px !default
+$Button_label_padding: 10px !default
+
+$Button_font_family: Helvetica, Arial, sans-serif !default
+$Button_font_size: 14px !default
+
+.Button
+    cursor: pointer
+    position: relative
+    height: $Button_height
+    vertical-align: middle
+    padding-top: $Button_internal_padding
+    padding-bottom: $Button_internal_padding
+    padding-left: $Button_internal_padding + $Button_label_padding
+    padding-right: $Button_internal_padding + $Button_label_padding
+    &:disabled
+        cursor: default
+    &.Button-icon.Button-text
+        padding-left: $Button_icon_width + $Button_internal_padding * 2
+    &.Button-icon:not(.Button-text)
+        width: $Button_icon_width + ($Button_height - $Button_icon_width)
+    .Button_icon_display
+        position: absolute
+        left: ($Button_height - $Button_icon_width) / 2
+        top: ($Button_height - $Button_icon_height) / 2
+        width: $Button_icon_width
+        height: $Button_icon_height
+        display: block
+    +transition-property('padding-right, background, color')
+    +transition-duration(0.2s)
+    &.Button-spinner
+        .Spinner
+            opacity: 0
+            position: absolute
+            top: ($Button_height - $Button_spinner_height) / 2
+            right: $Button_internal_padding
+            width: $Button_spinner_width
+            min-width: $Button_spinner_width
+            height: $Button_spinner_height
+            min-height: $Button_spinner_height
+
+        &.active
+            padding-right: $Button_spinner_width + $Button_internal_padding * 2
+            .Spinner
+                display: block
+                opacity: 1
+    &.Button-icon:not(.Button-text).Button-spinner
+        &.active
+            padding-right: 0
+            .Spinner
+                right: ($Button_height - $Button_spinner_height) / 2
+            .Button_icon_display
+                display: none
+
+
+$Button_border_radius: 0 !default
+$Button_font_color: white !default
+
+$Button_default_background              : $default_color !default
+$Button_default_hover_background        : lighten($default_color, 10) !default
+$Button_default_active_background       : darken($default_color, 10) !default
+$Button_default_disabled_background     : $disabled_color !default
+
+$Button_friendly_background             : $friendly_color !default
+$Button_friendly_hover_background       : lighten($friendly_color, 10) !default
+$Button_friendly_active_background      : darken($friendly_color, 10) !default
+$Button_friendly_disabled_background    : $disabled_color !default
+
+$Button_dangerous_background            : $dangerous_color !default
+$Button_dangerous_hover_background      : lighten($dangerous_color, 10) !default
+$Button_dangerous_active_background     : darken($dangerous_color, 10) !default
+$Button_dangerous_disabled_background   : $disabled_color !default
+
+$Button_warning_background              : $warning_color !default
+$Button_warning_hover_background        : lighten($warning_color, 10) !default
+$Button_warning_active_background       : darken($warning_color, 10) !default
+$Button_warning_disabled_background     : $disabled_color !default
+
+$Button_action_background               : $action_color !default
+$Button_action_hover_background         : lighten($action_color, 10) !default
+$Button_action_active_background        : darken($action_color, 10) !default
+$Button_action_disabled_background      : $disabled_color !default
+
+
+// TODO: move this to theme
+.Button
+    font-family: $Button_font_family
+    font-size: $Button_font_size
+    border: 0
+
+    .Button_icon_display
+        +background-size(contain)
+        background-repeat: no-repeat
+        background-position: center
+
+    &:not(.Button-bare)
+        +border-radius($Button_border_radius)
+        background: $Button_default_background
+        color: $Button_font_color
+        &:hover:not(:disabled)
+            background: $Button_default_hover_background
+        &:active:not(:disabled)
+            background: $Button_default_active_background
+        &:disabled
+            background: $Button_default_disabled_background
+
+        $icon_dangerous_image: $icon_dangerous_light_image !default
+        $icon_warning_image: $icon_warning_light_image !default
+        $icon_friendly_image: $icon_friendly_light_image !default
+        $icon_action_image: $icon_action_light_image !default
+        $icon_default_image: $icon_default_light_image !default
+
+        .Button_icon_display
+            background-image: $icon_default_image
+
+        &.Button-friendly
+            background: $Button_friendly_background
+            &:hover:not(:disabled)
+                background: $Button_friendly_hover_background
+            &:active:not(:disabled)
+                background: $Button_friendly_active_background
+            &:disabled
+                background: $Button_friendly_disabled_background
+            .Button_icon_display
+                background-image: $icon_friendly_image
+
+        &.Button-dangerous
+            background: $Button_dangerous_background
+            &:hover:not(:disabled)
+                background: $Button_dangerous_hover_background
+            &:active:not(:disabled)
+                background: $Button_dangerous_active_background
+            &:disabled
+                background: $Button_dangerous_disabled_background
+            .Button_icon_display
+                background-image: $icon_dangerous_image
+
+        &.Button-warning
+            background: $Button_warning_background
+            &:hover:not(:disabled)
+                background: $Button_warning_hover_background
+            &:active:not(:disabled)
+                background: $Button_warning_active_background
+            &:disabled
+                background: $Button_warning_disabled_background
+            .Button_icon_display
+                background-image: $icon_warning_image
+
+        &.Button-action
+            background: $Button_action_background
+            &:hover:not(:disabled)
+                background: $Button_action_hover_background
+            &:active:not(:disabled)
+                background: $Button_action_active_background
+            &:disabled
+                background: $Button_action_disabled_background
+            .Button_icon_display
+                background-image: $icon_action_image
+
+
+.Button.Button-bare
+    $icon_bare_dangerous_image: $icon_dangerous_dark_image !default
+    $icon_bare_warning_image: $icon_warning_dark_image !default
+    $icon_bare_friendly_image: $icon_friendly_dark_image !default
+    $icon_bare_action_image: $icon_action_dark_image !default
+    $icon_bare_default_image: $icon_default_dark_image !default
+    background: transparent
+    color: $default_color
+    font-weight: $Button_bare_weight
+    -webkit-font-smoothing: antialiased
+    &:hover, &:active
+        background: transparent
+    &:hover:not(:disabled)
+        color: lighten($default_color, 10)
+    &:active:not(:disabled)
+        color: darken($default_color, 10)
+    &:disabled
+        color: $disabled_color
+    .Button_icon_display
+        background-image: $icon_bare_default_image
+    &.Button-friendly
+        color: $friendly_color
+        &:hover:not(:disabled)
+            color: lighten($friendly_color, 10)
+        &:active:not(:disabled)
+            color: darken($friendly_color, 10)
+        .Button_icon_display
+            background-image: $icon_bare_friendly_image
+    &.Button-dangerous
+        color: $dangerous_color
+        &:hover:not(:disabled)
+            color: lighten($dangerous_color, 10)
+        &:active:not(:disabled)
+            color: darken($dangerous_color, 10)
+        .Button_icon_display
+            background-image: $icon_bare_dangerous_image
+    &.Button-warning
+        color: $warning_color
+        &:hover:not(:disabled)
+            color: lighten($warning_color, 10)
+        &:active:not(:disabled)
+            color: darken($warning_color, 10)
+        .Button_icon_display
+            background-image: $icon_bare_warning_image
+    &.Button-action
+        color: $action_color
+        &:hover:not(:disabled)
+            color: lighten($action_color, 10)
+        &:active:not(:disabled)
+            color: darken($action_color, 10)
+        .Button_icon_display
+            background-image: $icon_bare_action_image
+@import 'compass/css3'
+
+
+$Select_background_color: white !default
+$Select_border_color: #ccc !default
+$Select_border_size: 1px !default
+$Select_border_radius: 4px !default
+
+$Select_padding: 10px !default
+
+$Select_height: 36px
+$Select_choices_min_width: 140px
+$Select_choices_max_height: 400px
+
+$Select_choice_hover_background: rgba($default_color, 0.1)
+$Select_choice_selected_background: rgba($default_color, 0.2)
+
+.Select
+    +box-sizing(border-box)
+    height: $Select_height
+    position: relative
+    [data-hidden="true"]
+        visibility: hidden
+
+
+.Select_label, .Select_choices, .Select_value
+    display: inline-block
+
+.Select_choices
+    +box-sizing(border-box)
+    min-width: $Select_choices_min_width
+    max-height: $Select_choices_max_height
+    position: absolute
+
+.Select_value
+    +box-sizing(border-box)
+    min-width: $Select_choices_min_width
+
+.Select_choice, .Select_value, .Select_label
+    cursor: pointer
+
+.Select_choice-null
+    @extend .Select_choice
+    .Select_choice_label
+        opacity: 0.7
+        font-style: italic
+.Select_value-null
+    opacity: 0.7
+    font-style: italic
+
+
+
+// Theme styles
+.Select_value, .Select_choices
+    +border-radius($Select_border_radius)
+    border: $Select_border_size solid $Select_border_color
+    background-color: $Select_background_color
+
+.Select_value
+    padding: $Select_padding
+
+.Select_choice
+    padding: $Select_padding
+    &:hover:not([data-selected="true"])
+        background: $Select_choice_hover_background
+    &[data-selected="true"]
+        background: $Select_choice_selected_background
+
+.Select_label
+    padding: $Select_padding
+@import 'compass/css3'
+
+
+
+$StringInput_background_color       : white !default
+$StringInput_border_size            : 1px   !default
+$StringInput_border_color           : #ccc  !default
+$StringInput_border_radius          : 4px  !default
+$StringInput_token_background_color : rgba($default_color, 0.1) !default
+$StringInput_token_border_size      : 1px   !default
+$StringInput_token_border_radius    : 4px   !default
+$StringInput_token_border_color     : rgba($default_color, 0.2) !default
+$StringInput_token_remove_image     : $icon_close_dark !default
+
+.StringInput
+    display             : block
+.StringInput_input
+    font                : inherit
+    border              : 0
+    outline             : 0
+    //width               : 10em
+ 
+.StringInput_token_form, .StringInput_tokens
+    display             : block
+ 
+.StringInput_token_form, .StringInput:not(.StringInput_tokenize) .StringInput_input
+    border-width        : $StringInput_border_size
+    border-style        : solid
+    border-color        : $StringInput_border_color
+    background-color    : $StringInput_background_color
+    +border-radius($StringInput_border_radius)
+ 
+.StringInput_token
+    border-width        : $StringInput_token_border_size
+    border-style        : solid
+    border-color        : $StringInput_token_border_color
+    +border-radius($StringInput_token_border_radius)
+    background-color    : $StringInput_token_background_color
+    display             : inline-block
+ 
+.StringInput_token, .StringInput_input
+    margin              : 0.25em
+    padding             : 0.25em 0.5em
+    display             : inline-block
+ 
+.StringInput_counter-warn
+    color: $warning_color
+.StringInput_counter-over
+    color: $dangerous_color
+
+.StringInput-tokenize .StringInput_input
+    display: block
+
+.StringInput_token_remove
+    cursor: pointer
+    opacity: 0.5
+    border: 0
+    background-color: transparent
+    background-image: $StringInput_token_remove_image
+    background-repeat: no-repeat
+    +background-size(100%)
+    background-position: center
+    width: 1em
+    height: 1em
+    display: inline-block
+    vertical-align: -0.25em
+    color: transparent
+    &:hover
+        opacity: 1
+        &:active
+            opacity: 0.5
+@import 'compass/css3'
+
+
+$toggle_track_border_color: #ccc !default
+$toggle_track_border: 1px solid $toggle_track_border_color !default
+
+$toggle_switch_active_color: $warning_color
+$toggle_switch_inactive_color: $default_color
+
+.Toggle
+    *
+        cursor: pointer
+        vertical-align: middle
+    .Toggle-track
+        width: 60px
+        height: 30px
+        margin: 0 5px
+        position: relative
+        display: inline-block
+        +border-radius(4px)
+        border: $toggle_track_border
+    .Toggle-switch
+        +border-radius(4px)
+        width: 30px
+        height: 30px
+        position: absolute
+        background: $toggle_switch_inactive_color
+        display: inline-block
+        left: 0
+        +transition-property('left')
+        +transition-duration(0.2s)
+    .Toggle-label
+        +transition-property('opacity')
+        +transition-duration(0.2s)
+        // TODO: unify the font settings
+        font-family: 'Open Sans'
+        text-transform: uppercase
+        font-size: 12px
+        font-weight: bold
+    .Toggle-label-inactive
+        opacity: 1
+    .Toggle-label-active
+        opacity: 0.5
+    &.active
+        .Toggle-switch
+            left: 30px
+            background-color: $toggle_switch_active_color
+        .Toggle-label-inactive
+            opacity: 0.5
+        .Toggle-label-active
+            opacity: 1
+@import 'compass/css3'
+
+
+$AppBar_z_index         : 1 !default
+$AppBar_height          : auto !default
+$AppBar_background      : white !default
+$AppBar_border          : 1px solid transparent !default
+$AppBar_item_spacing     : 10px !default
+$AppBar_item_v_spacing   : $AppBar_item_spacing !default
+$AppBar_item_h_spacing   : $AppBar_item_spacing !default
+
+.AppBar
+    &.AppBar-pinned
+        position: fixed
+    z-index: $AppBar_z_index
+    background: $AppBar_background
+    &.AppBar-top, &.AppBar-bottom
+        left: 0
+        right: 0
+        height: $AppBar_height
+        .AppBar_head, .AppBar_tail
+            position: absolute
+            top: 0
+            width: 50%
+            +box-sizing(border-box)
+            padding: $AppBar_item_v_spacing 0
+            > *
+                margin: 0 $AppBar_item_h_spacing
+        .AppBar_head
+            left: 0
+        .AppBar_tail
+            text-align: right
+            right: 0
+    &.AppBar-responsive
+        +respond-to(handhelds)
+            .AppBar_head, .AppBar_tail
+                width: 100%
+                position: static
+                text-align: left
+    &.AppBar-top
+        top: 0
+        border-bottom: $AppBar_border
+    &.AppBar-bottom
+        bottom: 0
+        border-top: $AppBar_border
+
+    &.AppBar-left, &.AppBar-right
+        top: 0
+        bottom: 0
+        .AppBar_head, .AppBar_tail
+            position: absolute
+            left: 0
+            right: 0
+            padding: 0 $AppBar_item_h_spacing
+            > *
+                margin: $AppBar_item_v_spacing 0
+        .AppBar_head
+            top: 0
+        .AppBar_tail
+            bottom: 0
+    &.AppBar-left
+        left: 0
+        border-right: $AppBar_border
+    &.AppBar-right
+        right: 0
+        border-left: $AppBar_border
+
+
+
+@import 'compass'
+
+
+
+$Popover_border_size        : 1px               !default
+$Popover_border_color       : $disabled_color   !default
+$Popover_background_color   : white             !default
+$Popover_triangle_size      : 10px              !default
+$Popover_padding            : 10px              !default
+$Popover_border_radius      : 10px              !default
+$Popover_modal_mask_color   : rgba(0,0,0,0.5)   !default
+
+
+.Popover
+    position: absolute
+    &.Popover-fixed
+        position: fixed
+
+    .Popover_content
+        position: absolute
+        border      : $Popover_border_size solid $Popover_border_color
+        +border-radius($Popover_border_radius)
+        background-color  : $Popover_background_color
+        padding: $Popover_padding
+        //overflow: scroll
+        &::before, &::after
+            content: ""
+            position: absolute
+            border-style: solid
+            border-color: transparent
+            pointer-events: none
+        &::after
+            border-width: $Popover_triangle_size
+        &::before
+            border-width: $Popover_triangle_size + $Popover_border_size
+
+    $border_radius_adjustment: ($Popover_border_radius - $Popover_border_size)
+
+    // TOP EDGE
+
+    &.Popover-top-left .Popover_content
+        margin-top  : $Popover_triangle_size * 2
+        margin-left : $Popover_triangle_size * 0.5 - $border_radius_adjustment
+        &::after
+            top                 : $Popover_triangle_size * -2
+            left                : $border_radius_adjustment
+            border-bottom-color : $Popover_background_color
+        &::before
+            top                 : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            left                : -1 * $Popover_border_size + $border_radius_adjustment
+            border-bottom-color : $Popover_border_color
+
+    &.Popover-top-center .Popover_content
+        margin-top      : $Popover_triangle_size * 2
+        margin-left     : 50%
+        &::after
+            top                 : $Popover_triangle_size * -2
+            left                : calc(50% - #{ $Popover_triangle_size })
+            border-bottom-color : $Popover_background_color
+        &::before
+            top                 : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            left                : calc(50% - #{ $Popover_triangle_size + $Popover_border_size })
+            border-bottom-color : $Popover_border_color
+
+    &.Popover-top-right .Popover_content
+        margin-top      : $Popover_triangle_size * 2
+        margin-right    : $Popover_triangle_size * 0.5 - $border_radius_adjustment
+        &::after
+            top                 : $Popover_triangle_size * -2
+            right               : $border_radius_adjustment
+            border-bottom-color : $Popover_background_color
+        &::before
+            top                 : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            right               : -1 * $Popover_border_size + $border_radius_adjustment
+            border-bottom-color : $Popover_border_color
+
+    // RIGHT EDGE
+
+    &.Popover-right-top .Popover_content
+        margin-top      : $Popover_triangle_size * -0.5 - $border_radius_adjustment
+        margin-left    : $Popover_triangle_size * -2
+        &::after
+            right               : $Popover_triangle_size * -2
+            top                 : $border_radius_adjustment
+            border-left-color  : $Popover_background_color
+        &::before
+            right               : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            top                 : -1 * $Popover_border_size + $border_radius_adjustment
+            border-left-color  : $Popover_border_color
+
+    &.Popover-right-center .Popover_content
+        margin-top      : 50%
+        margin-left    : $Popover_triangle_size * -2
+        &::after
+            right               : $Popover_triangle_size * -2
+            top                 : calc(50% - #{ $Popover_triangle_size })
+            border-left-color  : $Popover_background_color
+        &::before
+            right               : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            top                 : calc(50% - #{ $Popover_triangle_size + $Popover_border_size })
+            border-left-color  : $Popover_border_color
+
+    &.Popover-right-bottom .Popover_content
+        margin-bottom      : $Popover_triangle_size * -0.5 - $border_radius_adjustment
+        margin-left    : $Popover_triangle_size * -2
+        &::after
+            right               : $Popover_triangle_size * -2
+            bottom                 : $border_radius_adjustment
+            border-left-color  : $Popover_background_color
+        &::before
+            right               : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            bottom                 : -1 * $Popover_border_size + $border_radius_adjustment
+            border-left-color  : $Popover_border_color
+
+    // BOTTOM EDGE
+
+    &.Popover-bottom-left .Popover_content
+        margin-top      : $Popover_triangle_size * -2
+        margin-left     : $Popover_triangle_size * 0.5 - $border_radius_adjustment
+        &::after
+            bottom              : $Popover_triangle_size * -2
+            left                : $border_radius_adjustment
+            border-top-color    : $Popover_background_color
+        &::before
+            bottom                 : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            left                : -1 * $Popover_border_size + $border_radius_adjustment
+            border-top-color    : $Popover_border_color
+
+    &.Popover-bottom-center .Popover_content
+        margin-top      : $Popover_triangle_size * -2
+        margin-left     : 50%
+        &::after
+            bottom              : $Popover_triangle_size * -2
+            left                : calc(50% - #{ $Popover_triangle_size })
+            border-top-color    : $Popover_background_color
+        &::before
+            bottom              : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            left                : calc(50% - #{ $Popover_triangle_size + $Popover_border_size })
+            border-top-color    : $Popover_border_color
+
+    &.Popover-bottom-right .Popover_content
+        margin-top      : $Popover_triangle_size * -2
+        margin-right    : $Popover_triangle_size * 0.5 - $border_radius_adjustment
+        &::after
+            bottom              : $Popover_triangle_size * -2
+            right               : $border_radius_adjustment
+            border-top-color    : $Popover_background_color
+        &::before
+            bottom              : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            right               : -1 * $Popover_border_size + $border_radius_adjustment
+            border-top-color    : $Popover_border_color
+
+    // LEFT EDGE
+
+    &.Popover-left-top .Popover_content
+        margin-top     : $Popover_triangle_size * -0.5 - $border_radius_adjustment
+        margin-left    : $Popover_triangle_size * 2
+        &::after
+            left                : $Popover_triangle_size * -2
+            top                 : $border_radius_adjustment
+            border-right-color  : $Popover_background_color
+        &::before
+            left                : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            top                 : -1 * $Popover_border_size + $border_radius_adjustment
+            border-right-color  : $Popover_border_color
+
+    &.Popover-left-center .Popover_content
+        margin-top     : 50%
+        margin-left    : $Popover_triangle_size * 2
+        &::after
+            left                : $Popover_triangle_size * -2
+            top                 : calc(50% - #{ $Popover_triangle_size })
+            border-right-color  : $Popover_background_color
+        &::before
+            left                : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            top                 : calc(50% - #{ $Popover_triangle_size + $Popover_border_size })
+            border-right-color  : $Popover_border_color
+
+    &.Popover-left-bottom .Popover_content
+        margin-bottom  : $Popover_triangle_size * -0.5 - $border_radius_adjustment
+        margin-left    : $Popover_triangle_size * 2
+        &::after
+            left                : $Popover_triangle_size * -2
+            bottom              : $border_radius_adjustment
+            border-right-color  : $Popover_background_color
+        &::before
+            left                : ($Popover_triangle_size * -2) - (2 * $Popover_border_size)
+            bottom              : -1 * $Popover_border_size + $border_radius_adjustment
+            border-right-color  : $Popover_border_color
+
+    .Popover_dismiss
+        float: left
+    .Popover_confirm
+        float: right
+
+    .Popover_controls
+        margin-top: $Popover_padding
+    .Popover_title
+        margin-bottom: $Popover_padding
+        text-align: center
+
+.Popover-modal
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    position: fixed
+    background: $Popover_modal_mask_color
+    .Popover_content
+        +single-box-shadow($blur: 1px)
+
